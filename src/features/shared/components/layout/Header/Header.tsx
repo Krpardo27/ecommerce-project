@@ -3,7 +3,7 @@ import { Actions } from "./Actions";
 import { Navbar } from "./Navbar";
 import { SearchBar } from "./SearchBar";
 
-export function Header() {
+export default function Header() {
   return (
     <header className="w-full border-b bg-white">
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
