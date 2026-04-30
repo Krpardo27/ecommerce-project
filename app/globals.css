@@ -3,18 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-jakarta: var(--font-geist-jakarta);
+  --font-body: var(--font-geist-inter);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-jakarta: var(--font-geist-jakarta);
+  --font-mono: var(--font-geist-inter);
+  --font-body: var(--font-geist-inter);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* --background: #0a0a0a; */
     --foreground: #ededed;
   }
 }
