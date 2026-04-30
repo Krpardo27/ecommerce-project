@@ -8,6 +8,7 @@ import Image from "next/image";
 import { formatPriceCLP } from "@/src/utils/formatPrice";
 import { flashSales } from "../data/flashsales";
 import Countdown from "react-countdown";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function FlashSales() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -60,54 +61,77 @@ export default function FlashSales() {
 
         <div
           className="
-  flex flex-col
-  md:flex-row
-  md:items-center
-  gap-4
-"
+    flex flex-col
+    md:flex-row
+    md:items-center
+    justify-between
+    gap-4
+  "
         >
-          <h2 className="text-2xl ml-4 lg:ml-0 md:text-3xl font-bold uppercase text-black">
-            Ofertas Flash
-          </h2>
+          {/* LEFT: título + timer */}
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
 
-          {targetDate ? (
-            <Countdown
-              date={targetDate}
-              renderer={({ days, hours, minutes, seconds }) => (
-                <div
-                  className="
-          flex items-center
-          gap-2 md:gap-3
-          text-gray-700
-        "
-                >
-                  {/* TIME BLOCK */}
-                  {[days, hours, minutes, seconds].map((val, i) => (
-                    <React.Fragment key={i}>
-                      <div className="flex flex-col items-center min-w-[50px]">
-                        <span className="text-base md:text-lg font-bold">
-                          {String(val).padStart(2, "0")}
-                        </span>
-                        <span className="text-[10px] md:text-xs">
-                          {["Días", "Horas", "Minutos", "Segundos"][i]}
-                        </span>
-                      </div>
+            <h2 className="text-2xl ml-4 lg:ml-0 md:text-3xl font-bold uppercase text-black">
+              Ofertas Flash
+            </h2>
 
-                      {/* ":" separator */}
-                      {i < 3 && (
-                        <span className="text-base md:text-lg font-bold text-[#E07575]">
-                          :
-                        </span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              )}
-            />
-          ) : (
-            <div className="h-10 w-40 md:w-48 bg-gray-100 animate-pulse rounded" />
-          )}
+            {targetDate ? (
+              <Countdown
+                date={targetDate}
+                renderer={({ days, hours, minutes, seconds }) => (
+                  <div className="flex items-center gap-2 md:gap-3 text-gray-700">
+                    {[days, hours, minutes, seconds].map((val, i) => (
+                      <React.Fragment key={i}>
+                        <div className="flex flex-col items-center min-w-[50px]">
+                          <span className="text-base md:text-lg font-bold">
+                            {String(val).padStart(2, "0")}
+                          </span>
+                          <span className="text-[10px] md:text-xs">
+                            {["Días", "Horas", "Minutos", "Segundos"][i]}
+                          </span>
+                        </div>
+
+                        {i < 3 && (
+                          <span className="text-base md:text-lg font-bold text-[#E07575]">
+                            :
+                          </span>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
+              />
+            ) : (
+              <div className="h-10 w-40 md:w-48 bg-gray-100 animate-pulse rounded" />
+            )}
+          </div>
+
+          {/* RIGHT: flechas */}
+          <div className="flex gap-2 ml-auto">
+            <button
+              onClick={() => emblaApi?.scrollPrev()}
+              className="
+        w-10 h-10 rounded-full border bg-[#F5F5F5]
+        flex items-center justify-center
+        hover:bg-[#DB4444] hover:text-white transition
+      "
+            >
+              <FaChevronLeft className="w-4 h-4 text-black hover:text-white" />
+            </button>
+
+            <button
+              onClick={() => emblaApi?.scrollNext()}
+              className="
+        w-10 h-10 rounded-full border bg-[#F5F5F5]
+        flex items-center justify-center
+        hover:bg-[#DB4444] transition
+      "
+            >
+              <FaChevronRight className="w-4 h-4 text-black hover:text-white" />
+            </button>
+          </div>
         </div>
+
       </div>
 
       {/* CARRUSEL */}
