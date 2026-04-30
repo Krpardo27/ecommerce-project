@@ -1,4 +1,4 @@
-import { Categories } from "./Categories";
+import Categories from "./Categories";
 import HeroCarousel from "./HeroCarousel";
 
 export default function Hero() {
