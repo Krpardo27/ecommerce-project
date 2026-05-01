@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories } from "../Categories/categories";
+import { categories } from "../data/categories";
 
 export default function Categories() {
   return (
