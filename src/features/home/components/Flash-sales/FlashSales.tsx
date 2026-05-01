@@ -9,6 +9,7 @@ import { formatPriceCLP } from "@/src/utils/formatPrice";
 import { flashSales } from "../data/flashsales";
 import Countdown from "react-countdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FiHeart, FiEye } from "react-icons/fi";
 
 export default function FlashSales() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -51,7 +52,7 @@ export default function FlashSales() {
   }, [emblaApi]);
 
   return (
-    <section className="container mx-auto py-20 space-y-10">
+    <section className="max-w-7xl mx-auto py-20 space-y-10">
       {/* HEADER */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3 relative px-2">
@@ -158,7 +159,7 @@ export default function FlashSales() {
 
                   {/* IMAGE */}
                   <div className="relative h-[200px] md:h-[220px] bg-neutral-100 flex items-center justify-center">
-                    <div className="relative w-[140px] h-[140px] md:w-[160px] md:h-[160px]">
+                    <div className="relative w-[140px] md:w-[160px] h-[240px] md:h-[260px]">
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -170,48 +171,50 @@ export default function FlashSales() {
                     <span className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded-md font-semibold">
                       -{discount}%
                     </span>
+
+                    {/* ACTIONS - solo visible al hover */}
+                    <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                      <button className="bg-white p-2 rounded-full shadow-md transition-all duration-200 hover:bg-[#DB4444] hover:text-white hover:scale-105">
+                        <FiHeart size={16} />
+                      </button>
+                      <button className="bg-neutral-400 p-2 rounded-full shadow-md transition-all duration-200 hover:bg-[#DB4444] hover:text-white hover:scale-105">
+                        <FiEye size={16} />
+                      </button>
+                    </div>
                   </div>
 
                   {/* INFO */}
-                  <div className="flex-1 p-3 md:p-4 flex flex-col justify-between">
-
+                  <div className="flex-1 p-3 md:p-4 flex flex-col">
+                    {/* TITLE */}
                     <h3 className="text-sm font-medium text-black line-clamp-2">
                       {product.name}
                     </h3>
 
-                    <div className="flex flex-col gap-2">
+                    {/* PRICE */}
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-red-500 font-bold text-sm md:text-base">
+                        {formatPriceCLP(product.discountPrice)}
+                      </span>
 
-                      {/* PRICE */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-red-500 font-bold text-sm md:text-base">
-                          {formatPriceCLP(product.discountPrice)}
-                        </span>
+                      <span className="text-xs line-through text-gray-400">
+                        {formatPriceCLP(product.price)}
+                      </span>
+                    </div>
 
-                        <span className="text-xs line-through text-gray-400">
-                          {formatPriceCLP(product.price)}
-                        </span>
-                      </div>
-
-                      {/* BUTTON */}
+                    {/* PUSH BUTTON DOWN */}
+                    <div className="mt-auto">
                       <button
                         className="
-                    w-full
-                    py-2
-                    text-sm font-semibold
-                    rounded-md
-                    bg-black text-white
-                    transition-all duration-300
-
-                    opacity-100 md:opacity-0
-                    translate-y-0 md:translate-y-2
-                    md:group-hover:opacity-100
-                    md:group-hover:translate-y-0
-                  "
+        w-full py-2 text-sm font-semibold rounded-md
+        bg-black text-white
+        hover:bg-[#DB4444]
+        transition-colors duration-200
+      "
                       >
                         Añadir al carrito
                       </button>
-
                     </div>
+
                   </div>
                 </div>
               </div>

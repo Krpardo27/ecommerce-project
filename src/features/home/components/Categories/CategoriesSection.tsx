@@ -35,7 +35,7 @@ export default function CategoriesSection() {
   });
 
   return (
-    <section className="container mx-auto py-12 space-y-6">
+    <section className="max-w-7xl mx-auto py-12 space-y-6">
       <div className="flex flex-col gap-3">
         {/* TOP LABEL */}
         <div className="flex items-center gap-3 relative px-2">

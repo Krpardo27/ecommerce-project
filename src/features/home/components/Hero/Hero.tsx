@@ -3,7 +3,7 @@ import HeroCarousel from "./HeroCarousel";
 
 export default function Hero() {
   return (
-    <section className="container mx-auto flex gap-12">
+    <section className="max-w-7xl mx-auto flex gap-12">
       <Categories />
       <div className="flex-1 lg:mt-12">
         <HeroCarousel />
