@@ -11,7 +11,7 @@ export default function Breadcrumbs() {
   const segments = pathname.split("/").filter(Boolean);
 
   return (
-    <nav className="max-w-7xl mx-auto px-4 mt-12 text-sm text-gray-500">
+    <nav className="max-w-7xl mx-auto px-4 text-sm text-gray-500">
       <ol className="flex items-end gap-2 flex-wrap">
         <li>
           <Link href="/" className="hover:text-black">
