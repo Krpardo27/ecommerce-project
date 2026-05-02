@@ -173,7 +173,7 @@ export default function FlashSales() {
                     </span>
 
                     {/* ACTIONS - solo visible al hover */}
-                    <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                    <div className="absolute top-3 right-3 flex flex-col gap-2 transition-opacity duration-200 z-10">
                       <button className="bg-white p-2 rounded-full shadow-md transition-all duration-200 hover:bg-[#DB4444] hover:text-white hover:scale-105">
                         <FiHeart size={16} />
                       </button>

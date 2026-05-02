@@ -8,10 +8,13 @@ export default function Breadcrumbs() {
 
   if (pathname === "/") return null;
 
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname
+    .split("/")
+    .filter(Boolean)
+    .filter((segment) => segment !== "categoria"); 
 
   return (
-    <nav className="max-w-7xl mx-auto px-4 text-sm text-gray-500">
+    <nav className="max-w-7xl mx-auto px-4 text-sm text-gray-500 lg:py-12">
       <ol className="flex items-end gap-2 flex-wrap">
         <li>
           <Link href="/" className="hover:text-black">
