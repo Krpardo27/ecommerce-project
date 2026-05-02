@@ -1,7 +1,12 @@
-import React from 'react'
-
-export default function layout() {
+export default function ShopLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div>layout</div>
-  )
+    <div>
+      {/* puedes poner header, sidebar, etc */}
+      {children}
+    </div>
+  );
 }

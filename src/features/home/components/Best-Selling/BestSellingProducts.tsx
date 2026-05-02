@@ -40,7 +40,7 @@ export default function BestSellingProducts() {
             {/* IMAGE WRAPPER */}
             <div className="relative h-[220px] lg:h-[240px] bg-[#F5F5F5] flex items-center justify-center overflow-hidden">
               {/* ACTIONS - solo visible al hover */}
-              <div className="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute top-3 right-3 flex flex-col gap-2 z-10 transition-opacity duration-200">
                 <button className="bg-white p-2 rounded-full shadow-md transition-all duration-200 hover:bg-[#DB4444] hover:text-white hover:scale-105">
                   <FiHeart size={16} />
                 </button>
