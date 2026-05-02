@@ -16,6 +16,7 @@ async function getCategories() {
 
 export default async function Categories() {
   const categories = await getCategories();
+  console.log(categories)
 
   return (
     <aside className="w-[260px] border-r pr-4 hidden lg:block">

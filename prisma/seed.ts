@@ -25,13 +25,11 @@ async function generateUniqueSlug(baseSlug: string, usedSlugs: Set<string>) {
   let i = 1;
 
   while (true) {
-    // evitar duplicados en memoria
     if (usedSlugs.has(slug)) {
       slug = `${baseSlug}-${i++}`;
       continue;
     }
 
-    // evitar duplicados en DB
     const exists = await prisma.product.findUnique({
       where: { slug },
     });
@@ -47,35 +45,69 @@ async function generateUniqueSlug(baseSlug: string, usedSlugs: Set<string>) {
 
 async function main() {
   try {
-    await prisma.category.createMany({
-      data: categories,
-      skipDuplicates: true,
-    });
+    console.log("🧹 Cleaning database...");
+    await prisma.product.deleteMany();
+    await prisma.category.deleteMany();
 
-    const existingCategories = await prisma.category.findMany({
+    const parentCategories = categories.filter((c) => !c.parentSlug);
+
+    for (const parent of parentCategories) {
+      await prisma.category.create({
+        data: {
+          name: parent.name,
+          slug: parent.slug,
+        },
+      });
+    }
+
+    const dbCategories = await prisma.category.findMany({
       select: { id: true, slug: true },
     });
 
-    const categoryMap = existingCategories.reduce<Record<string, number>>(
-      (map, category) => {
-        map[category.slug] = category.id;
-        return map;
-      },
-      {},
-    );
+    const categoryMap = Object.fromEntries(
+      dbCategories.map((c) => [c.slug, c.id])
+    ) as Record<string, number>;
+
+ 
+    const childCategories = categories.filter((c) => c.parentSlug);
+
+    for (const child of childCategories) {
+      const parentId = categoryMap[child.parentSlug!];
+
+      if (!parentId) {
+        throw new Error(`❌ Parent not found: ${child.parentSlug}`);
+      }
+
+      await prisma.category.create({
+        data: {
+          name: child.name,
+          slug: child.slug,
+          parentId,
+        },
+      });
+    }
+
+    const allCategories = await prisma.category.findMany({
+      select: { id: true, slug: true },
+    });
+
+    const finalCategoryMap = Object.fromEntries(
+      allCategories.map((c) => [c.slug, c.id])
+    ) as Record<string, number>;
 
     const usedSlugs = new Set<string>();
 
     const productsWithRelations = await Promise.all(
       products.map(async ({ categorySlug, ...product }) => {
-        const categoryId = categoryMap[categorySlug];
+        const categoryId = finalCategoryMap[categorySlug];
 
         if (!categoryId) {
-          throw new Error(`Category not found for product: ${product.name}`);
+          throw new Error(
+            `❌ Category not found for product: ${product.name}`
+          );
         }
 
         const baseSlug = slugify(product.name);
-
         const slug = await generateUniqueSlug(baseSlug, usedSlugs);
 
         return {
@@ -83,7 +115,7 @@ async function main() {
           slug,
           categoryId,
         };
-      }),
+      })
     );
 
     await prisma.product.createMany({
