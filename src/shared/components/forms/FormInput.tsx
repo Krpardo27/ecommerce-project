@@ -1,18 +1,30 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, forwardRef } from "react";
 import clsx from "clsx";
 
-type Props = InputHTMLAttributes<HTMLInputElement>;
+type Props = InputHTMLAttributes<HTMLInputElement> & {
+  error?: boolean;
+};
 
-export default function FormInput(props: Props) {
-  const { className } = props;
+const FormInput = forwardRef<HTMLInputElement, Props>(
+  ({ className, error, ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        {...props}
+        className={clsx(
+          "w-full rounded-xl px-4 py-3 text-sm transition",
+          "bg-white text-black placeholder:text-black/40",
+          "border border-black/20",
+          "focus:outline-none focus:border-[#DB4444] focus:ring-2 focus:ring-[#DB4444]/20",
+          error && "border-red-500 focus:border-red-500 focus:ring-red-200",
+          props.disabled && "bg-black/5 text-black/40 cursor-not-allowed",
+          className
+        )}
+      />
+    );
+  }
+);
 
-  return (
-    <input
-      {...props}
-      className={clsx(
-        "w-full rounded-xl border border-zinc-300  px-4 py-3 text-sm outline-hidden transition placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200",
-        className,
-      )}
-    />
-  );
-}
+FormInput.displayName = "FormInput";
+
+export default FormInput;

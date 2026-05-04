@@ -10,12 +10,9 @@ export default function Form(props: Props) {
     <form
       {...props}
       className={clsx(
-        "w-full max-w-xl mx-auto",
+        "w-full",
         "flex flex-col",
-        "rounded-2xl ",
-        "bg-zinc-900 dark:bg-white/80 bg-opacity-5 dark:bg-opacity-10",
-        "shadow-xs",
-        "p-6 md:p-8",
+        "p-3 md:p-6",
         "space-y-6",
         "transition-all duration-200",
         className

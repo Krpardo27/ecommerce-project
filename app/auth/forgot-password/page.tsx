@@ -1,8 +1,6 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import ForgotPasswordForm from "@/src/features/auth/components/ForgotPasswordForm";
-import { FiLogIn, FiUserPlus } from "react-icons/fi";
 import Heading from "@/src/shared/components/ui/typography/Heading";
 
 export const metadata: Metadata = {
@@ -10,9 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function ForgotPasswordPage() {
+
   return (
     <section className="min-h-dvh grid lg:grid-cols-2">
-
       {/* LEFT - IMAGE */}
       <div className="hidden lg:block relative">
         <Image

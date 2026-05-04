@@ -60,7 +60,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/carrito" className="hover:text-white">
+                <Link href="/cart" className="hover:text-white">
                   Carrito
                 </Link>
               </li>
