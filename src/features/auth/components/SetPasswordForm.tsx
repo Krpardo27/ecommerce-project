@@ -12,7 +12,7 @@ import { Form, FormInput, FormLabel, FormSubmit } from "@/src/shared/components/
 export default function SetPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  // console.log("Token:", token);
+  console.log("Token:", token);
   if (!token) redirect("/auth/forgot-password");
 
   const {

@@ -3,7 +3,6 @@ import { PasswordResetEmailData } from "../types/email.types";
 export function renderPasswordResetEmail(data: PasswordResetEmailData): string {
   const brandName = "Ecommerce Project";
   const primaryColor = "#4F46E5";
-  // Aseguramos que la URL sea limpia
   const resetUrl = `${data.url}/auth/reset-password`;
 
   return `

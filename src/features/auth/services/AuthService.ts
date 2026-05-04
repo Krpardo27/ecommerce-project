@@ -1,43 +1,34 @@
 import { auth } from "@/src/lib/auth";
 import {
+  ChangePasswordInput,
   ForgotPasswordInput,
   SetPasswordInput,
   SignInInput,
   SignUpInput,
 } from "../schemas/authSchema";
 import { headers } from "next/headers";
-import { APIError } from "better-auth";
+import { APIError, success } from "better-auth";
 
 class AuthService {
   async register({ name, email, password }: SignUpInput) {
     try {
-      await auth.api.signUpEmail({
-        body: {
-          name,
-          email,
-          password,
-        },
+      const res = await auth.api.signUpEmail({
+        body: { name, email, password },
       });
+      console.log(res);
 
-      return {
-        error: "",
-        success: "Cuenta creada correctamente",
-      };
-    } catch (error) {
-      console.log("SIGNUP ERROR FULL:", error);
-
-      if (error instanceof APIError) {
-        const messages: Record<number, string> = {
-          409: "El email ya está registrado",
-          400: "Datos inválidos",
-        };
-
+      if (!res || !res.token) {
         return {
-          error: messages[error.statusCode] || error.message,
+          error: "El email ya está registrado",
           success: "",
         };
       }
 
+      return {
+        success: "Cuenta creada correctamente",
+        error: "",
+      };
+    } catch (error) {
       return {
         error: error instanceof Error ? error.message : "Error inesperado",
         success: "",
@@ -56,12 +47,12 @@ class AuthService {
         headers: await headers(),
       });
 
-      return { error: "", success: "Sesión iniciada correctamente" };
+      return { success: "Sesión iniciada correctamente", error: "" };
     } catch (error) {
       if (error instanceof APIError) {
         const messages: Record<number, string> = {
-          401: "Password incorrecto",
-          403: "Email no verificado. ¡Revisa tu bandeja de entrada!",
+          401: "Credenciales inválidas",
+          403: "Email no verificado",
         };
 
         return {
@@ -70,7 +61,10 @@ class AuthService {
         };
       }
 
-      return { error: "Error inesperado", success: "" };
+      return {
+        error: "Error inesperado",
+        success: "",
+      };
     }
   }
 
@@ -86,7 +80,7 @@ class AuthService {
       return {
         error: "",
         success:
-          "Si tu correo está registrado, recibirás las instrucciones en breve.",
+          "Si tu correo es válido, recibirás instrucciones para continuar",
       };
     } catch (error) {
       return {
@@ -121,6 +115,37 @@ class AuthService {
         success: "",
       };
     }
+  }
+
+  async changePassword(input: ChangePasswordInput) {
+    const { newPassword, currentPassword } = input;
+
+    const isValid = await checkPassword(currentPassword);
+    if (!isValid) {
+      return {
+        error: "La contraseña actual es incorrecta",
+        success: "",
+      };
+    }
+
+    await auth.api.changePassword({
+      body: {
+        currentPassword,
+        newPassword,
+      },
+      headers: await headers(),
+    });
+
+    return {
+      error: '',
+      success: 'La contraseña se actualizó correctamente'
+    }
+  }
+
+  async getSessions() {
+    return auth.api.listSessions({
+      headers: await headers(),
+    });
   }
 }
 

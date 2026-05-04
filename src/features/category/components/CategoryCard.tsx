@@ -2,6 +2,7 @@ import { Product } from "@/src/generated/prisma/client";
 import { formatPriceCLP } from "@/src/utils/formatPrice";
 import Image from "next/image";
 import { FiEye, FiHeart } from "react-icons/fi";
+import AddProductButton from "../../products/components/AddProductButton";
 
 type CategoryCardProps = {
   product: Product;
@@ -49,9 +50,7 @@ export default function CategoryCard({ product }: CategoryCardProps) {
         </div>
 
         <div className="mt-auto">
-          <button className="w-full py-2 text-sm font-semibold rounded-md bg-black text-white hover:bg-[#DB4444] transition-colors duration-200">
-            Añadir al carrito
-          </button>
+          <AddProductButton product={product} />
         </div>
       </div>
     </div>

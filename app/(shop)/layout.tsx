@@ -1,12 +1,14 @@
+import HeaderMinimal from "@/src/shared/components/layout/Header/HeaderMinimal";
+
 export default function ShopLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      {/* puedes poner header, sidebar, etc */}
-      {children}
-    </div>
+    <>
+      <HeaderMinimal />
+      <main className="min-h-dvh bg-[#f5f5f5]">{children}</main>
+    </>
   );
 }

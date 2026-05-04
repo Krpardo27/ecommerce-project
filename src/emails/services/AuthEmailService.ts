@@ -14,19 +14,19 @@ export class AuthEmailService {
     await EmailService.send({
       from: emailConfig.from.verification,
       to: data.email,
-      subject: "Confirma tu cuenta",
+      subject: "Ecommerce Project - Confirma tu cuenta",
       text: renderVerificationEmailText(data),
       html: renderVerificationEmail(data),
     });
   }
 
-  static async sendPasswordResetEmail(
+  static async sendPasswordResetToken(
     data: PasswordResetEmailData,
   ): Promise<void> {
     await EmailService.send({
       from: emailConfig.from.passwordReset,
       to: data.email,
-      subject: "Kevin - Reestablece tu password",
+      subject: "Ecommerce Project - Reestablece tu Password",
       text: renderPasswordResetEmailText(data),
       html: renderPasswordResetEmail(data),
     });

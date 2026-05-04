@@ -1,48 +1,55 @@
 export const products = [
+  // FLASH SALES 
   {
     name: "Gucci duffle bag",
     description: "Bolso de viaje premium de alta calidad",
-    price: 19990,
+    price: 29990,
+    discountPrice: 19990,
     image: "/images/home/flashsales/flashsale-1.png",
     categorySlug: "accesorios",
   },
   {
     name: "ASUS FHD Gaming Laptop",
     description: "Laptop gamer con alto rendimiento gráfico",
-    price: 749990,
+    price: 899990,
+    discountPrice: 749990,
     image: "/images/home/flashsales/flashsale-2.png",
     categorySlug: "computadores",
   },
   {
     name: "S-Series Comfort Chair",
     description: "Silla ergonómica para oficina o gaming",
-    price: 119990,
+    price: 159990,
+    discountPrice: 119990,
     image: "/images/home/flashsales/flashsale-3.png",
     categorySlug: "hogar",
   },
   {
     name: "IPS LCD Gaming Monitor",
     description: "Monitor gaming con panel IPS y alta tasa de refresco",
-    price: 149990,
+    price: 189990,
+    discountPrice: 149990,
     image: "/images/home/flashsales/flashsale-4.png",
-    categorySlug: "gaming",
+    categorySlug: "computadores",
   },
   {
     name: "AK-900 Wired Keyboard",
     description: "Teclado mecánico cableado para gaming",
-    price: 32990,
+    price: 45990,
+    discountPrice: 32990,
     image: "/images/home/flashsales/flashsale-5.png",
-    categorySlug: "gaming",
+    categorySlug: "computadores",
   },
   {
     name: "HAVIT HV-G92 Gamepad",
     description: "Control gamer ergonómico compatible multiplataforma",
-    price: 17990,
+    price: 24990,
+    discountPrice: 17990,
     image: "/images/home/flashsales/flashsale-6.png",
     categorySlug: "gaming",
   },
 
-  // BEST SELLING
+  // BEST SELLING 
   {
     name: "The North Coat",
     description: "Abrigo premium ideal para climas fríos",

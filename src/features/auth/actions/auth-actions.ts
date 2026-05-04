@@ -1,6 +1,9 @@
 "use server";
 
+import { requireAuth } from "@/src/lib/auth-server";
 import {
+  ChangePasswordInput,
+  ChangePasswordSchema,
   ForgotPasswordInput,
   ForgotPasswordSchema,
   SetPasswordInput,
@@ -11,10 +14,11 @@ import {
   SignUpSchema,
 } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
+import { success } from "zod";
 
 export async function signUpAction(input: SignUpInput) {
   const data = SignUpSchema.safeParse(input);
-  console.log(data)
+  console.log(data);
 
   if (!data.success) {
     return {
@@ -24,7 +28,7 @@ export async function signUpAction(input: SignUpInput) {
   }
 
   const response = await authService.register(data.data);
-   console.log(response)
+  console.log(response);
 
   return response;
 }
@@ -70,6 +74,23 @@ export async function setPasswordAction(
       success: "",
     };
   }
+  console.log(token);
   const response = await authService.confirmPasswordReset(input, token);
   return response;
+}
+
+export async function changePasswordAction(input: ChangePasswordInput) {
+  const { session } = await requireAuth();
+  const data = ChangePasswordSchema.safeParse(input)
+
+  if (!session || !data.success) {
+    return {
+      error: "Hubo un error",
+      success: ''
+    };
+  }
+
+  const result = await authService.changePassword(data.data)
+  return result
+  
 }

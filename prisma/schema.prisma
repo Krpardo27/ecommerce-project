@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"           
-  output   = "../src/generated/prisma"  
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -28,12 +28,13 @@ model Category {
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
-  name        String
-  slug        String @unique
-  description String
-  price       Int
-  image       String
+  id            Int    @id @default(autoincrement())
+  name          String
+  slug          String @unique
+  description   String
+  price         Int
+  discountPrice Int?
+  image         String
 
   ratings Rating[]
 
@@ -41,6 +42,8 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [id])
 
   collections ProductCollection[]
+
+  orderItems OrderProduct[]
 
   @@index([categoryId])
 }
@@ -63,6 +66,62 @@ model ProductCollection {
   @@id([productId, collectionId])
 }
 
+model Order {
+  id String @id @default(cuid())
+
+  // Usuario (opcional)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  // DATOS DEL CLIENTE 
+  email            String
+  phone            String
+  receiverName     String
+  receiverLastName String
+  rut              String
+
+  //  DIRECCIÓN 
+  region    String
+  commune   String
+  street    String
+  number    String
+  apartment String?
+
+  // TOTALES
+  subtotal Float
+  total    Float
+
+  // ESTADO
+  status String @default("pending")
+
+  //  RELACIÓN
+  items OrderProduct[]
+
+  // TIMESTAMPS
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderProduct {
+  id String @id @default(cuid())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  productId Int?
+  product   Product? @relation(fields: [productId], references: [id])
+
+  name  String
+  image String
+
+  price         Float
+  discountPrice Float?
+
+  quantity Int
+
+  createdAt DateTime @default(now())
+}
+
 model Rating {
   id        Int @id @default(autoincrement())
   value     Int
@@ -83,6 +142,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  orders        Order[]
 
   @@unique([email])
   @@map("user")

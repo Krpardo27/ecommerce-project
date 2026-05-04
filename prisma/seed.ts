@@ -1,7 +1,6 @@
 import { PrismaClient } from "@/src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
-
 import { categories } from "./data/categories";
 import { products } from "./data/products";
 
@@ -65,10 +64,9 @@ async function main() {
     });
 
     const categoryMap = Object.fromEntries(
-      dbCategories.map((c) => [c.slug, c.id])
+      dbCategories.map((c) => [c.slug, c.id]),
     ) as Record<string, number>;
 
- 
     const childCategories = categories.filter((c) => c.parentSlug);
 
     for (const child of childCategories) {
@@ -92,19 +90,19 @@ async function main() {
     });
 
     const finalCategoryMap = Object.fromEntries(
-      allCategories.map((c) => [c.slug, c.id])
+      allCategories.map((c) => [c.slug, c.id]),
     ) as Record<string, number>;
 
     const usedSlugs = new Set<string>();
 
+    const allProducts = [...products];
+
     const productsWithRelations = await Promise.all(
-      products.map(async ({ categorySlug, ...product }) => {
+      allProducts.map(async ({ categorySlug, ...product }) => {
         const categoryId = finalCategoryMap[categorySlug];
 
         if (!categoryId) {
-          throw new Error(
-            `❌ Category not found for product: ${product.name}`
-          );
+          throw new Error(`❌ Category not found for product: ${product.name}`);
         }
 
         const baseSlug = slugify(product.name);
@@ -115,7 +113,7 @@ async function main() {
           slug,
           categoryId,
         };
-      })
+      }),
     );
 
     await prisma.product.createMany({
