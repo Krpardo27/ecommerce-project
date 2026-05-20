@@ -14,7 +14,7 @@ export default function SecurityPage() {
   return (
     <>
       <Heading level={1}>{title}</Heading>
-      <ChangePasswordForm />
+      {/* <ChangePasswordForm /> */}
       <ActiveSessionsList />
     </>
   )

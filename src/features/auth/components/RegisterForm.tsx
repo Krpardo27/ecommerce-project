@@ -52,7 +52,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto">
       <div style={{ marginBottom: "1rem" }}>
         <FormLabel htmlFor="name">Nombre completo</FormLabel>
         <FormInput

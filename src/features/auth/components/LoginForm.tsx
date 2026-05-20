@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { SignInInput, SignInSchema } from "../schemas/authSchema";
 import { signInAction } from "../actions/auth-actions";
@@ -12,6 +12,8 @@ import Link from "next/link";
 import { FiKey, FiUserPlus } from "react-icons/fi";
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -30,7 +32,7 @@ export default function LoginForm() {
 
     if (success) {
       toast.success(success);
-      redirect("/");
+      router.push("/dashboard");
     }
   };
 
