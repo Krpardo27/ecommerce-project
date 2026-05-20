@@ -17,13 +17,15 @@ class AuthService {
       });
 
       return {
-        success: "Cuenta creada correctamente. Revisa tu email para verificarla.",
+        success:
+          "Cuenta creada correctamente. Revisa tu email para verificarla.",
         error: "",
       };
     } catch (error) {
       if (error instanceof APIError) {
         return {
-          error: "No se pudo crear la cuenta. Verifica tus datos o intenta con otro email.",
+          error:
+            "No se pudo crear la cuenta. Verifica tus datos o intenta con otro email.",
           success: "",
         };
       }
@@ -118,26 +120,37 @@ class AuthService {
 
   async changePassword(input: ChangePasswordInput) {
     const { newPassword, currentPassword } = input;
+    try {
+      await auth.api.changePassword({
+        body: {
+          currentPassword,
+          newPassword,
+        },
+        headers: await headers(),
+      });
 
-    const isValid = await checkPassword(currentPassword);
-    if (!isValid) {
       return {
-        error: "La contraseña actual es incorrecta",
+        error: "",
+        success: "La contraseña se actualizó correctamente",
+      };
+    } catch (error) {
+      if (error instanceof APIError) {
+        const messages: Record<number, string> = {
+          401: "La contraseña actual es incorrecta",
+          403: "No autorizado para cambiar la contraseña",
+        };
+
+        return {
+          error:
+            messages[error.statusCode] || "No se pudo actualizar la contraseña",
+          success: "",
+        };
+      }
+
+      return {
+        error: "Ocurrió un error inesperado al cambiar la contraseña",
         success: "",
       };
-    }
-
-    await auth.api.changePassword({
-      body: {
-        currentPassword,
-        newPassword,
-      },
-      headers: await headers(),
-    });
-
-    return {
-      error: '',
-      success: 'La contraseña se actualizó correctamente'
     }
   }
 
