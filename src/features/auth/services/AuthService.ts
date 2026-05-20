@@ -7,28 +7,27 @@ import {
   SignUpInput,
 } from "../schemas/authSchema";
 import { headers } from "next/headers";
-import { APIError, success } from "better-auth";
+import { APIError } from "better-auth";
 
 class AuthService {
   async register({ name, email, password }: SignUpInput) {
     try {
-      const res = await auth.api.signUpEmail({
+      await auth.api.signUpEmail({
         body: { name, email, password },
       });
-      console.log(res);
 
-      if (!res || !res.token) {
+      return {
+        success: "Cuenta creada correctamente. Revisa tu email para verificarla.",
+        error: "",
+      };
+    } catch (error) {
+      if (error instanceof APIError) {
         return {
-          error: "El email ya está registrado",
+          error: "No se pudo crear la cuenta. Verifica tus datos o intenta con otro email.",
           success: "",
         };
       }
 
-      return {
-        success: "Cuenta creada correctamente",
-        error: "",
-      };
-    } catch (error) {
       return {
         error: error instanceof Error ? error.message : "Error inesperado",
         success: "",
@@ -42,7 +41,7 @@ class AuthService {
         body: {
           email,
           password,
-          callbackURL: "/",
+          callbackURL: "/dashboard",
         },
         headers: await headers(),
       });
